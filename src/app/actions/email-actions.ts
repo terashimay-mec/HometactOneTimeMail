@@ -105,6 +105,7 @@ export async function checkS3Emails(emailAddress: string): Promise<Email[]> {
     const emails: Email[] = [];
     
     if (listResult.items) {
+      console.log(`取得したファイル数: ${listResult.items.length}`);
       for (const item of listResult.items) {
         if (item.path) {
           try {
@@ -118,6 +119,7 @@ export async function checkS3Emails(emailAddress: string): Promise<Email[]> {
             const emailContent = await response.text();
             if (isEmailForAddress(emailContent, emailAddress)) {
               const email = await parseEmailContent(emailContent, item.path);
+              console.log('メール件名:', email.subject);
               emails.push(email);
             }
           } catch (error) {
