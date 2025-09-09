@@ -5,6 +5,7 @@ import { CopyButton } from './CopyButton';
 import { LoadingSpinner } from './LoadingSpinner';
 import { ErrorMessage } from './ErrorMessage';
 import { EmailAddress } from '@/types';
+import { useEmailFromQuery } from '@/hooks/useEmailFromQuery';
 
 interface EmailGeneratorProps {
   emailAddress: EmailAddress | null;
@@ -15,6 +16,7 @@ interface EmailGeneratorProps {
 
 export function EmailGenerator({ emailAddress, loading, error, onRetry }: EmailGeneratorProps) {
   const [copied, setCopied] = useState(false);
+  const { clearEmailFromQuery } = useEmailFromQuery();
 
   const handleCopy = async () => {
     if (emailAddress?.address) {
@@ -26,6 +28,11 @@ export function EmailGenerator({ emailAddress, loading, error, onRetry }: EmailG
         console.error('Failed to copy:', error);
       }
     }
+  };
+
+  const handleRegenerate = () => {
+    clearEmailFromQuery();
+    // ページが再読み込みされ、新しいメールアドレスが生成されます
   };
 
   if (loading) {
@@ -62,7 +69,14 @@ export function EmailGenerator({ emailAddress, loading, error, onRetry }: EmailG
             />
           </div>
           
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={handleRegenerate}
+              className="px-4 py-2 text-sm font-medium text-white rounded-md hover:opacity-90 transition-opacity"
+              style={{ backgroundColor: '#dc000c' }}
+            >
+              再生成
+            </button>
             <CopyButton 
               onCopy={handleCopy}
               copied={copied}

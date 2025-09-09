@@ -13,7 +13,7 @@ export interface UpdateButtonRef {
   click: () => void;
 }
 
-export const UpdateButton = forwardRef<UpdateButtonRef, UpdateButtonProps>(({ onUpdate, isUpdating, canUpdate, getRemainingCooldown }, ref) => {
+export const UpdateButton = forwardRef<UpdateButtonRef, UpdateButtonProps>(function UpdateButton({ onUpdate, isUpdating, canUpdate, getRemainingCooldown }, ref) {
   const [remainingTime, setRemainingTime] = useState(0);
 
   useImperativeHandle(ref, () => ({

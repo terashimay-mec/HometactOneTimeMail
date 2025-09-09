@@ -15,17 +15,12 @@ const client = generatePublicClient();
 
 export async function createEmailAddress(): Promise<ApiResponse<EmailAddress>> {
   try {
-    console.log('Starting createEmailAddress...');
-    
     // ランダムメールアドレス生成
     const address = generateEmailAddress();
-    console.log('Generated address:', address);
     
     // 重複チェック
-    console.log('Checking for duplicates...');
     const exists = await checkEmailAddressExists(address);
     if (exists) {
-      console.log('Address already exists');
       return {
         success: false,
         error: 'Email address already exists'
@@ -33,7 +28,6 @@ export async function createEmailAddress(): Promise<ApiResponse<EmailAddress>> {
     }
 
     // メールアドレス作成
-    console.log('Creating email address in database...');
     const { data, errors } = await client.models.EmailAddress.create({
       address,
       createdAt: new Date().toISOString(),
@@ -47,8 +41,6 @@ export async function createEmailAddress(): Promise<ApiResponse<EmailAddress>> {
         error: `Failed to create email address: ${JSON.stringify(errors)}`
       };
     }
-
-    console.log('Successfully created email address:', data);
     return {
       success: true,
       data: {
@@ -71,7 +63,6 @@ export async function createEmailAddress(): Promise<ApiResponse<EmailAddress>> {
 // ヘルパー関数
 async function checkEmailAddressExists(address: string): Promise<boolean> {
   try {
-    console.log('Checking if address exists:', address);
     const { data, errors } = await client.models.EmailAddress.list({
       filter: {
         address: { eq: address }
@@ -84,7 +75,6 @@ async function checkEmailAddressExists(address: string): Promise<boolean> {
     }
     
     const exists = data && data.length > 0;
-    console.log('Address exists:', exists);
     return exists;
   } catch (error) {
     console.error('Error checking email address:', error);

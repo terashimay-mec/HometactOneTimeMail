@@ -18,7 +18,7 @@ interface EmailListProps {
   getRemainingCooldown: () => number;
 }
 
-export const EmailList = forwardRef<UpdateButtonRef, EmailListProps>(({ emails, loading, error, onRetry, onUpdate, isUpdating, canUpdate, getRemainingCooldown }, ref) => {
+export const EmailList = forwardRef<UpdateButtonRef, EmailListProps>(function EmailList({ emails, loading, error, onRetry, onUpdate, isUpdating, canUpdate, getRemainingCooldown }, ref) {
   const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
 
   if (loading) {

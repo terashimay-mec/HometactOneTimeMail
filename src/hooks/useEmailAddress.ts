@@ -31,9 +31,7 @@ export function useEmailAddress() {
     
     try {
       const result = await createEmailAddress();
-      console.log('createEmailAddress result:', result);
       if (result.success && result.data) {
-        console.log('Setting email address:', result.data);
         setEmailAddress(result.data);
         // クエリパラメータにメールアドレスを設定
         setEmailToQuery(result.data.address);

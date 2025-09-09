@@ -1,12 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap&display=block');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   html {
-    font-family: 'Noto Sans JP', system-ui, sans-serif;
+    font-family: var(--font-noto-sans-jp), system-ui, sans-serif;
+  }
+  
+  /* FOUC対策: 初期表示時のスタイルを設定 */
+  body {
+    background-color: #f9fafb;
+    color: #111827;
   }
 }
 

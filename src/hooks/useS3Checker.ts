@@ -33,7 +33,7 @@ export function useS3Checker() {
 
   const canUpdate = useCallback(() => {
     return !isUpdating && (!lastUpdateTime || Date.now() - lastUpdateTime >= 10000);
-  }, [isUpdating]);
+  }, [isUpdating, lastUpdateTime]);
 
   const getRemainingCooldown = useCallback(() => {
     if (!lastUpdateTime) return 0;

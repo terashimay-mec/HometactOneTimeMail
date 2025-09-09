@@ -19,16 +19,16 @@ function HomePageContent() {
   const { emailAddress, generateEmailAddress, loading: addressLoading, error: addressError } = useEmailAddress();
   const { emails, refreshEmails, loading: emailsLoading, error: emailsError } = useEmailList();
   const { updateEmails, isUpdating, canUpdate, getRemainingCooldown } = useS3Checker();
-  const { getEmailFromQuery } = useEmailFromQuery();
+  const { getValidatedEmailFromQuery } = useEmailFromQuery();
   const updateButtonRef = useRef<UpdateButtonRef>(null);
 
   // ページ読み込み時にメールアドレス生成（クエリパラメータにない場合のみ）
   useEffect(() => {
-    const queryEmail = getEmailFromQuery();
+    const queryEmail = getValidatedEmailFromQuery();
     if (!queryEmail) {
       generateEmailAddress();
     }
-  }, [generateEmailAddress, getEmailFromQuery]);
+  }, [generateEmailAddress, getValidatedEmailFromQuery]);
 
   // メールアドレスが生成されたら初期表示後に自動で更新ボタンをクリック
   useEffect(() => {
@@ -85,10 +85,34 @@ function HomePageContent() {
 export default function HomePage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">読み込み中...</p>
+      <div className="min-h-screen bg-gray-50">
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto space-y-8">
+            {/* ロゴ表示 */}
+            <div className="flex justify-center mb-8">
+              <div className="h-8 w-32 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+            
+            {/* メールアドレス生成カード */}
+            <div className="bg-white rounded-lg shadow-md p-4">
+              <div className="h-6 bg-gray-200 rounded w-64 mb-4 animate-pulse"></div>
+              <div className="h-10 bg-gray-200 rounded w-full mb-4 animate-pulse"></div>
+              <div className="flex justify-end gap-2">
+                <div className="h-10 bg-gray-200 rounded w-16 animate-pulse"></div>
+                <div className="h-10 bg-gray-200 rounded w-20 animate-pulse"></div>
+              </div>
+            </div>
+            
+            {/* 受信メールカード */}
+            <div className="bg-white rounded-lg shadow-md p-4">
+              <div className="h-6 bg-gray-200 rounded w-32 mb-4 animate-pulse"></div>
+              <div className="space-y-3">
+                <div className="h-4 bg-gray-200 rounded w-full animate-pulse"></div>
+                <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse"></div>
+                <div className="h-4 bg-gray-200 rounded w-1/2 animate-pulse"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     }>
