@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, forwardRef } from 'react';
 import { EmailViewer } from './EmailViewer';
 import { LoadingSpinner } from './LoadingSpinner';
 import { ErrorMessage } from './ErrorMessage';
+import { UpdateButton, UpdateButtonRef } from './UpdateButton';
 import { Email } from '@/types';
 
 interface EmailListProps {
@@ -11,15 +12,21 @@ interface EmailListProps {
   loading: boolean;
   error: string | null;
   onRetry: () => void;
+  onUpdate: () => void;
+  isUpdating: boolean;
+  canUpdate: () => boolean;
+  getRemainingCooldown: () => number;
 }
 
-export function EmailList({ emails, loading, error, onRetry }: EmailListProps) {
+export const EmailList = forwardRef<UpdateButtonRef, EmailListProps>(({ emails, loading, error, onRetry, onUpdate, isUpdating, canUpdate, getRemainingCooldown }, ref) => {
   const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
 
   if (loading) {
     return (
       <div className="bg-white rounded-lg shadow-md p-4">
-        <h2 className="text-lg font-semibold mb-4 px-0">受信メール</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold px-0">受信メール</h2>
+        </div>
         <div className="flex items-center justify-center py-8">
           <LoadingSpinner />
           <span className="ml-2">読み込み中...</span>
@@ -31,7 +38,9 @@ export function EmailList({ emails, loading, error, onRetry }: EmailListProps) {
   if (error) {
     return (
       <div className="bg-white rounded-lg shadow-md p-4">
-        <h2 className="text-lg font-semibold mb-4 px-0">受信メール</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold px-0">受信メール</h2>
+        </div>
         <ErrorMessage message={error} onRetry={onRetry} />
       </div>
     );
@@ -39,9 +48,18 @@ export function EmailList({ emails, loading, error, onRetry }: EmailListProps) {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
-      <h2 className="text-lg font-semibold mb-4 px-0">
-        受信メール ({emails.length}件)
-      </h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-semibold px-0">
+          受信メール ({emails.length}件)
+        </h2>
+        <UpdateButton
+          ref={ref}
+          onUpdate={onUpdate}
+          isUpdating={isUpdating}
+          canUpdate={canUpdate}
+          getRemainingCooldown={getRemainingCooldown}
+        />
+      </div>
       
       {emails.length === 0 ? (
         <div className="text-center py-8 text-gray-500">
@@ -81,4 +99,4 @@ export function EmailList({ emails, loading, error, onRetry }: EmailListProps) {
       )}
     </div>
   );
-}
+});
