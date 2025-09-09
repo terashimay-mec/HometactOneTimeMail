@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useCallback } from 'react';
-import { checkS3Emails } from '@/utils/s3-utils';
+import { checkS3Emails } from '@/app/actions/email-actions';
 import { Email } from '@/types';
 
 export function useS3Checker() {

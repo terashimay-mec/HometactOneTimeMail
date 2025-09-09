@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { EmailGenerator } from '@/components/EmailGenerator';
 import { EmailList } from '@/components/EmailList';
+import { Logo } from '@/components/Logo';
 import { useEmailAddress } from '@/hooks/useEmailAddress';
 import { useEmailList } from '@/hooks/useEmailList';
 import { useS3Checker } from '@/hooks/useS3Checker';
@@ -42,6 +43,10 @@ export default function HomePage() {
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto space-y-8">
+          {/* ロゴ表示 */}
+          <div className="flex justify-center mb-8">
+            <Logo className="h-8 w-auto" />
+          </div>
           <EmailGenerator 
             emailAddress={emailAddress} 
             loading={addressLoading}

@@ -64,7 +64,8 @@ export function EmailViewer({ email, onClose }: EmailViewerProps) {
         <div className="flex items-center justify-end p-4 border-t bg-gray-50">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+            className="px-4 py-2 text-white rounded-md hover:opacity-90"
+            style={{ backgroundColor: '#dc000c' }}
           >
             閉じる
           </button>
